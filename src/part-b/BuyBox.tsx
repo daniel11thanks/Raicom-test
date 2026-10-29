@@ -4,7 +4,7 @@
 import { useState } from "react";
 import styles from "./BuyBox.module.css";
 import { CheckCircleIcon, CheckIcon, ChevronIcon, StarIcon } from "./icons";
-import { formatPrice } from "./format";
+import { formatPrice } from "../shared/format";
 import { PurchaseOption } from "./PurchaseOption";
 import { QuantityStepper } from "./QuantityStepper";
 

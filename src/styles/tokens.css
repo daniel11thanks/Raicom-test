@@ -9,6 +9,8 @@
   --color-text-body: #4a5550;
   --color-text-muted: #6b7a70;
   --color-text-subtle: #8a948e;
+  /* Secondary text that passes WCAG AA (4.5:1) on page, white and tint. --color-text-muted does not (4.15:1 on tint). */
+  --color-text-secondary: #627067;
   --color-on-brand: #ffffff;
   --color-on-brand-muted: #a2b3ac;
 
@@ -20,6 +22,9 @@
   --color-star: #d8a23a;
   --color-badge-bg: #f6e7c4;
   --color-badge-text: #7a5a12;
+
+  --color-danger: #a32a20;
+  --color-danger-bg: #fcedeb;
 
   --radius-card: 24px;
   --radius-option: 14px;
