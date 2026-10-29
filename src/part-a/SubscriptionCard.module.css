@@ -266,7 +266,7 @@
   margin-top: 20px;
 }
 
-.skipButton:disabled {
+.skipButton[aria-disabled="true"] {
   color: var(--color-text-secondary);
   border-color: var(--color-border-control);
   cursor: not-allowed;

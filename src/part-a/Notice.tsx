@@ -56,7 +56,8 @@ export function Notice({ notice, onReload, onRetryRefresh }: NoticeProps) {
         <div className={`${styles.notice} ${styles.noticeError}`}>
           <p className={styles.noticeTitle}>Couldn't refresh</p>
           <p className={styles.noticeText}>
-            We couldn't refresh your subscription. Skipping is unavailable until it loads.
+            We didn't skip your shipment, and we couldn't refresh your subscription. Skipping is unavailable until it
+            loads.
           </p>
           <button type="button" className={styles.noticeButton} onClick={onRetryRefresh}>
             Try again

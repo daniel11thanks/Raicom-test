@@ -163,14 +163,17 @@ export function SubscriptionCard() {
             <ItemList items={data.items} showPrices={isActive} />
             {isActive && <Summary subscription={data} />}
 
-            {/* Paused and cancelled subscriptions never get a skip button. */}
+            {/* Paused and cancelled subscriptions never get a skip button. aria-disabled (not disabled) keeps
+                the button focusable, so focus can come back to it after the dialog closes during a refresh. */}
             {isActive && (
               <button
                 ref={skipButton}
                 type="button"
                 className={styles.skipButton}
-                disabled={!canSkip(state)}
-                onClick={openSkip}
+                aria-disabled={!canSkip(state)}
+                onClick={() => {
+                  if (canSkip(state)) openSkip();
+                }}
               >
                 Skip next shipment
               </button>
