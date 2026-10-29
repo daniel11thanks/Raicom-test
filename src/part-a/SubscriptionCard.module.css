@@ -53,17 +53,18 @@
   gap: 16px;
 }
 
+/* Light on purpose: the block around them is already the card, so a panel is only a hairline and smaller corners,
+   with no fill of its own (it sits on the white of the block). */
 .panel {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 20px 16px;
-  background: var(--color-surface);
+  padding: 16px;
   border: 1px solid var(--color-border-warm);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-option);
 }
 
-/* The next shipment is the second thing read on a desktop, so it carries more visual weight. */
+/* The next shipment is the second thing read in two columns, so it carries more visual weight: a pale green fill. */
 .panelNext {
   background: var(--color-tint);
   border-color: var(--color-border-control);
@@ -645,6 +646,6 @@
   }
 
   .panel {
-    padding: 24px 20px;
+    padding: 20px;
   }
 }
