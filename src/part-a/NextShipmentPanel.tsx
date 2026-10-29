@@ -33,7 +33,13 @@ export function NextShipmentPanel({ subscription, canSkip, onSkip, skipButtonRef
           <ShipmentItems items={subscription.items} />
           <ChargeDetails subscription={subscription} />
 
-          <SkipControl canSkip={canSkip} onSkip={onSkip} buttonRef={skipButtonRef} />
+          <SkipControl
+            nextChargeAt={nextChargeAt}
+            intervalDays={subscription.intervalDays}
+            canSkip={canSkip}
+            onSkip={onSkip}
+            buttonRef={skipButtonRef}
+          />
         </>
       )}
 

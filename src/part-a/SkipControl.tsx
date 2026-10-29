@@ -1,19 +1,25 @@
 import { useState, type Ref } from "react";
+import { formatDate, nextChargeAfterSkip } from "./format";
 import { InfoDialog } from "./InfoDialog";
 import styles from "./SubscriptionCard.module.css";
 
-const COUNTS = [1, 2, 3];
+const MAX_SHIPMENTS = 6;
+const COUNTS = Array.from({ length: MAX_SHIPMENTS }, (_, i) => i + 1);
 
 interface SkipControlProps {
+  /** ISO date of the next charge, and the days between charges: the date each choice leads to is computed from them. */
+  nextChargeAt: string;
+  intervalDays: number;
   canSkip: boolean;
   /** The real skip: opens the confirmation dialog and calls the API. */
   onSkip: () => void;
   buttonRef: Ref<HTMLButtonElement>;
 }
 
-// The API can only skip one shipment per call. Choosing 2 or 3 is allowed (a disabled option would look broken and
-// would not say why), the hint above the button says so up front, and pressing the button explains it in a dialog.
-export function SkipControl({ canSkip, onSkip, buttonRef }: SkipControlProps) {
+// The API can only skip one shipment per call. Choosing 2 to 6 is allowed (a disabled option would look broken and
+// would not say why): each option shows where it would lead, the hint under it says it is not available yet, and
+// pressing the button explains it in a dialog. Changing the select never opens anything.
+export function SkipControl({ nextChargeAt, intervalDays, canSkip, onSkip, buttonRef }: SkipControlProps) {
   const [count, setCount] = useState(1);
   const [infoOpen, setInfoOpen] = useState(false);
 
@@ -23,27 +29,36 @@ export function SkipControl({ canSkip, onSkip, buttonRef }: SkipControlProps) {
     setCount(1);
   };
 
+  const dateFor = (shipments: number) => formatDate(nextChargeAfterSkip(nextChargeAt, intervalDays, shipments));
+
   return (
     <div className={styles.skipControl}>
-      <fieldset className={styles.skipFieldset}>
-        <legend className={styles.skipLegend}>Shipments to skip</legend>
-        <div className={styles.segments}>
+      <label htmlFor="skip-count" className={styles.skipLabel}>
+        Shipments to skip
+      </label>
+      <div className={styles.selectWrap}>
+        <select
+          id="skip-count"
+          className={styles.select}
+          value={count}
+          onChange={(event) => setCount(Number(event.target.value))}
+          aria-describedby="skip-preview skip-hint"
+        >
           {COUNTS.map((n) => (
-            <label key={n} className={`${styles.segment} ${n > 1 ? styles.segmentLimited : ""}`}>
-              <input
-                type="radio"
-                name="skip-count"
-                value={n}
-                checked={count === n}
-                onChange={() => setCount(n)}
-                className={styles.segmentInput}
-                aria-describedby="skip-hint"
-              />
-              <span>{n}</span>
-            </label>
+            <option key={n} value={n}>
+              {n} {n === 1 ? "shipment" : "shipments"} · {dateFor(n)}
+            </option>
           ))}
-        </div>
-      </fieldset>
+        </select>
+        <svg className={styles.selectChevron} width="12" height="8" viewBox="0 0 12 8" aria-hidden="true">
+          <path d="M1.5 1.5 6 6l4.5-4.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+
+      {/* Not a live region: changing the select already announces the option, and the option carries the date. */}
+      <p id="skip-preview" className={styles.skipPreview}>
+        Your next charge would be on {dateFor(count)}.
+      </p>
       <p id="skip-hint" className={styles.skipHint}>
         For now, shipments can only be skipped one at a time.
       </p>
