@@ -4,6 +4,7 @@ import { formatPrice } from "../shared/format";
 import { ChargeDetails } from "./ChargeDetails";
 import { formatDate } from "./format";
 import { ShipmentItems } from "./ShipmentItems";
+import { SkipControl } from "./SkipControl";
 import styles from "./SubscriptionCard.module.css";
 
 interface NextShipmentPanelProps {
@@ -32,17 +33,7 @@ export function NextShipmentPanel({ subscription, canSkip, onSkip, skipButtonRef
           <ShipmentItems items={subscription.items} />
           <ChargeDetails subscription={subscription} />
 
-          <button
-            ref={skipButtonRef}
-            type="button"
-            className={styles.skipButton}
-            aria-disabled={!canSkip}
-            onClick={() => {
-              if (canSkip) onSkip();
-            }}
-          >
-            Skip next shipment
-          </button>
+          <SkipControl canSkip={canSkip} onSkip={onSkip} buttonRef={skipButtonRef} />
         </>
       )}
 
