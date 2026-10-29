@@ -44,7 +44,7 @@ export function NextShipmentPanel({ subscription, canSkip, onSkip, skipButtonRef
       )}
 
       {status === "paused" && (
-        <div className={`${styles.block} ${styles.blockPaused}`}>
+        <div className={`${styles.emptyState} ${styles.blockPaused}`}>
           <p className={styles.blockMain}>No shipment scheduled</p>
           <p className={styles.blockSub}>
             Paused until {pausedUntil ? formatDate(pausedUntil) : "further notice"}. No charges while paused.
@@ -53,7 +53,7 @@ export function NextShipmentPanel({ subscription, canSkip, onSkip, skipButtonRef
       )}
 
       {status === "cancelled" && (
-        <div className={`${styles.block} ${styles.blockCancelled}`}>
+        <div className={`${styles.emptyState} ${styles.blockCancelled}`}>
           <p className={styles.blockMain}>No shipment scheduled</p>
           <p className={styles.blockSub}>
             Cancelled on {cancelledAt ? formatDate(cancelledAt) : "an earlier date"}. No further charges.
