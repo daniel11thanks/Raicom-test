@@ -1,12 +1,27 @@
-/* Mobile first (375px): one column, 16px side gutter, touch targets of at least 48px, next shipment first.
-   From 768px: two panels side by side, the subscription on the left and the next shipment on the right.
-   The panel order itself is decided in SubscriptionCard.tsx, not here. */
+/* Mobile first (375px): one column, touch targets of at least 48px, next shipment first.
+   The layout follows the width of the block (a container), not the window: from 720px of block width the two
+   panels sit side by side, the subscription on the left and the next shipment on the right.
+   The panel order itself is decided in SubscriptionCard.tsx from the same width. Keep both thresholds equal.
+   Only the page margin and the dialog follow the window. */
 
 .page {
   box-sizing: border-box;
-  max-width: 560px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 16px 16px 48px;
+  padding: 12px 12px 48px;
+}
+
+/* The visible block: white, with the title, the notices and the panels inside. It is the container the layout
+   queries ask about. A container cannot be styled by its own queries, so the padding lives on blockInner. */
+.block {
+  container-type: inline-size;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-warm);
+  border-radius: var(--radius-card);
+}
+
+.blockInner {
+  padding: 16px;
 }
 
 .pageTitle {
@@ -603,7 +618,12 @@
   margin-top: 24px;
 }
 
+/* Window: the dialog is an overlay sized by the window, and the page margin sits outside the block. */
 @media (min-width: 480px) {
+  .page {
+    padding: 16px 16px 48px;
+  }
+
   .dialogActions {
     flex-direction: row-reverse;
   }
@@ -617,19 +637,26 @@
   .page {
     padding-top: 32px;
   }
+}
 
-  .panel {
-    padding: 24px 20px;
+/* Block width: padding grows, then two columns. Keep 720px equal to TWO_COLUMNS_MIN_WIDTH in SubscriptionCard.tsx. */
+@container (min-width: 480px) {
+  .blockInner {
+    padding: 20px;
   }
 }
 
-@media (min-width: 768px) {
-  .page {
-    max-width: 880px;
+@container (min-width: 720px) {
+  .blockInner {
+    padding: 24px;
   }
 
   .panels {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
+  }
+
+  .panel {
+    padding: 24px 20px;
   }
 }

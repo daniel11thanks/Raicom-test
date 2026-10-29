@@ -1,7 +1,7 @@
-// Part A: "Manage my subscription". Two panels: the subscription as a whole, and the next shipment.
-// State lives in useSubscription (reducer + API calls).
+// Part A: "Manage my subscription". One block holding the title, the notices and two panels: the subscription as a
+// whole, and the next shipment. State lives in useSubscription (reducer + API calls).
 import { useEffect, useRef } from "react";
-import { useMediaQuery } from "../shared/useMediaQuery";
+import { useContainerAtLeast } from "../shared/useContainerWidth";
 import { NextShipmentPanel } from "./NextShipmentPanel";
 import { Notice } from "./Notice";
 import { SkipDialog } from "./SkipDialog";
@@ -10,10 +10,13 @@ import { canSkip } from "./subscriptionReducer";
 import styles from "./SubscriptionCard.module.css";
 import { useSubscription } from "./useSubscription";
 
-// Desktop reads left to right: the subscription, then what happens next. On a phone the next shipment comes
-// first. The order is decided here, in the DOM (not with CSS order), so keyboard and screen reader order
-// always matches what the eye sees.
-const WIDE = "(min-width: 768px)";
+// The block is as wide as its container allows, not as wide as the window. Two columns start when the block itself
+// is this wide. Keep it equal to the @container (min-width: ...) threshold in SubscriptionCard.module.css.
+const TWO_COLUMNS_MIN_WIDTH = 720;
+
+// Two columns read left to right: the subscription, then what happens next. In one column the next shipment comes
+// first. The order is decided here, in the DOM (not with CSS order), so keyboard and screen reader order always
+// matches what the eye sees.
 
 function SkeletonSubscription() {
   return (
@@ -40,7 +43,9 @@ function SkeletonNextShipment() {
 
 export function SubscriptionCard() {
   const { state, retryLoad, retryRefresh, openSkip, cancelSkip, confirmSkip } = useSubscription();
-  const wide = useMediaQuery(WIDE);
+  const blockRef = useRef<HTMLElement>(null);
+  // null until the block has been measured (before the first paint). Nothing that depends on it renders before that.
+  const twoColumns = useContainerAtLeast(blockRef, TWO_COLUMNS_MIN_WIDTH);
   const { data, notice } = state;
   const skipButton = useRef<HTMLButtonElement>(null);
 
@@ -55,6 +60,7 @@ export function SubscriptionCard() {
   const isActive = data?.status === "active";
   const success = notice?.kind === "success" ? notice : null;
   const problem = notice && notice.kind !== "success" ? notice : null;
+  const measured = twoColumns !== null;
 
   const subscriptionPanel = data && <SubscriptionPanel key="subscription" subscription={data} />;
   const nextShipmentPanel = data && (
@@ -69,57 +75,65 @@ export function SubscriptionCard() {
 
   return (
     <main className={styles.page} aria-busy={state.load === "loading" || state.refreshing}>
-      <h1 className={styles.pageTitle}>Manage my subscription</h1>
+      <section ref={blockRef} className={styles.block} aria-labelledby="subscription-heading">
+        <div className={styles.blockInner}>
+          <h1 id="subscription-heading" className={styles.pageTitle}>
+            Manage my subscription
+          </h1>
 
-      {/* Always mounted so screen readers pick up what is inserted into them. */}
-      <div role="status" aria-live="polite">
-        {success && <Notice notice={success} onReload={retryLoad} onRetryRefresh={retryRefresh} />}
-        {state.refreshing && <p className={styles.refreshing}>Refreshing your subscription…</p>}
-      </div>
-      <div role="alert">
-        {problem && <Notice notice={problem} onReload={retryLoad} onRetryRefresh={retryRefresh} />}
-      </div>
-
-      {state.load === "loading" && (
-        <>
-          <p className={styles.srOnly} role="status">
-            Loading your subscription…
-          </p>
-          <div className={styles.panels} aria-hidden="true">
-            {wide ? (
-              <>
-                <SkeletonSubscription />
-                <SkeletonNextShipment />
-              </>
-            ) : (
-              <>
-                <SkeletonNextShipment />
-                <SkeletonSubscription />
-              </>
-            )}
+          {/* Always mounted so screen readers pick up what is inserted into them. */}
+          <div role="status" aria-live="polite">
+            {success && <Notice notice={success} onReload={retryLoad} onRetryRefresh={retryRefresh} />}
+            {state.refreshing && <p className={styles.refreshing}>Refreshing your subscription…</p>}
           </div>
-        </>
-      )}
+          <div role="alert">
+            {problem && <Notice notice={problem} onReload={retryLoad} onRetryRefresh={retryRefresh} />}
+          </div>
 
-      {state.load === "error" && (
-        <div className={styles.loadError} role="alert">
-          <p className={styles.noticeTitle}>
-            {state.loadError === "notFound" ? "We couldn't find your subscription." : "We couldn't load your subscription."}
-          </p>
-          <p className={styles.noticeText}>
-            {state.loadError === "notFound"
-              ? "Check the link and try again."
-              : "Something went wrong on our end. Please try again."}
-          </p>
-          <button type="button" className={styles.primaryButton} onClick={retryLoad}>
-            Try again
-          </button>
+          {state.load === "loading" && measured && (
+            <>
+              <p className={styles.srOnly} role="status">
+                Loading your subscription…
+              </p>
+              <div className={styles.panels} aria-hidden="true">
+                {twoColumns ? (
+                  <>
+                    <SkeletonSubscription />
+                    <SkeletonNextShipment />
+                  </>
+                ) : (
+                  <>
+                    <SkeletonNextShipment />
+                    <SkeletonSubscription />
+                  </>
+                )}
+              </div>
+            </>
+          )}
+
+          {state.load === "error" && (
+            <div className={styles.loadError} role="alert">
+              <p className={styles.noticeTitle}>
+                {state.loadError === "notFound" ? "We couldn't find your subscription." : "We couldn't load your subscription."}
+              </p>
+              <p className={styles.noticeText}>
+                {state.loadError === "notFound"
+                  ? "Check the link and try again."
+                  : "Something went wrong on our end. Please try again."}
+              </p>
+              <button type="button" className={styles.primaryButton} onClick={retryLoad}>
+                Try again
+              </button>
+            </div>
+          )}
+
+          {state.load === "ready" && data && measured && (
+            <div className={styles.panels}>
+              {twoColumns ? [subscriptionPanel, nextShipmentPanel] : [nextShipmentPanel, subscriptionPanel]}
+            </div>
+          )}
         </div>
-      )}
-
-      {state.load === "ready" && data && (
-        <div className={styles.panels}>{wide ? [subscriptionPanel, nextShipmentPanel] : [nextShipmentPanel, subscriptionPanel]}</div>
-      )}
+      </section>
 
       {isActive && data && (
         <SkipDialog subscription={data} phase={state.skip} onConfirm={confirmSkip} onCancel={cancelSkip} />
