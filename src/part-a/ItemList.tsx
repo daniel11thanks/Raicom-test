@@ -1,15 +1,8 @@
 import type { SubscriptionItem } from "../api/types";
-import { formatPrice } from "../shared/format";
-import { lineTotalCents } from "./format";
 import styles from "./SubscriptionCard.module.css";
 
-interface ItemListProps {
-  items: SubscriptionItem[];
-  /** Prices are only shown while the subscription is active. */
-  showPrices: boolean;
-}
-
-export function ItemList({ items, showPrices }: ItemListProps) {
+// What the customer subscribed to: image, name and quantity. Prices live in the next shipment panel.
+export function ItemList({ items }: { items: SubscriptionItem[] }) {
   return (
     <ul className={styles.items}>
       {items.map((item) => (
@@ -25,7 +18,6 @@ export function ItemList({ items, showPrices }: ItemListProps) {
             <span className={styles.itemName}>{item.name}</span>
             <span className={styles.itemQty}>Qty {item.quantity}</span>
           </span>
-          {showPrices && <span className={styles.itemPrice}>{formatPrice(lineTotalCents(item))}</span>}
         </li>
       ))}
     </ul>

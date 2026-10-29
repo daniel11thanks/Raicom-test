@@ -1,5 +1,6 @@
-/* Mobile first (375px): one column, 16px side gutter, touch targets of at least 48px.
-   Wider screens only center the card and put the dialog buttons on one line. */
+/* Mobile first (375px): one column, 16px side gutter, touch targets of at least 48px, next shipment first.
+   From 768px: two panels side by side, the subscription on the left and the next shipment on the right.
+   The panel order itself is decided in SubscriptionCard.tsx, not here. */
 
 .page {
   box-sizing: border-box;
@@ -8,11 +9,13 @@
   padding: 16px 16px 48px;
 }
 
-.card {
-  padding: 20px 16px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border-warm);
-  border-radius: var(--radius-card);
+.pageTitle {
+  margin: 0 0 16px;
+  font-family: var(--font-serif);
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 500;
+  color: var(--color-brand);
 }
 
 .srOnly {
@@ -27,9 +30,31 @@
   border: 0;
 }
 
-/* Header + status pill */
+/* Panels */
 
-.header {
+.panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-warm);
+  border-radius: var(--radius-card);
+}
+
+/* The next shipment is the second thing read on a desktop, so it carries more visual weight. */
+.panelNext {
+  background: var(--color-tint);
+  border-color: var(--color-border-control);
+}
+
+.panelHeader {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -37,14 +62,17 @@
   gap: 12px;
 }
 
-.title {
+.panelTitle {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: 26px;
-  line-height: 32px;
-  font-weight: 500;
-  color: var(--color-brand);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
 }
+
+/* Status pill */
 
 .pill {
   display: inline-flex;
@@ -73,16 +101,73 @@
   background: var(--color-border-control);
 }
 
-/* Status block: what comes next (or why nothing does) */
+/* Next shipment: date and amount lead */
 
-.block {
-  margin-top: 20px;
-  padding: 16px;
-  border-radius: var(--radius-option);
+.heroDate {
+  margin: 8px 0 0;
+  font-family: var(--font-serif);
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 500;
+  color: var(--color-brand);
 }
 
-.blockActive {
-  background: var(--color-tint);
+.heroAmount {
+  margin: 4px 0 0;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.shipmentItems {
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shipmentItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-body);
+}
+
+.charge {
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border-control);
+}
+
+.chargeRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+}
+
+.chargeRow dt,
+.chargeRow dd {
+  margin: 0;
+}
+
+.chargeTotal {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Paused and cancelled: why there is no next shipment */
+
+.block {
+  margin-top: 12px;
+  padding: 16px;
+  border-radius: var(--radius-option);
 }
 
 .blockPaused {
@@ -98,19 +183,9 @@
   margin: 0;
 }
 
-.blockLabel {
-  font-size: 13px;
-  line-height: 18px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
 .blockMain {
-  margin-top: 4px !important;
-  font-size: 20px;
-  line-height: 28px;
+  font-size: 18px;
+  line-height: 26px;
   font-weight: 600;
   color: var(--color-text);
 }
@@ -122,18 +197,10 @@
   color: var(--color-text-body);
 }
 
-/* Products */
-
-.sectionTitle {
-  margin: 24px 0 8px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-}
+/* Subscription: what is in it */
 
 .items {
-  margin: 0;
+  margin: 16px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -197,38 +264,30 @@
   color: var(--color-text-secondary);
 }
 
-.itemPrice {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-/* Summary */
-
-.summary {
-  margin: 8px 0 0;
-  padding-top: 8px;
+.facts {
+  margin: 12px 0 0;
+  padding-top: 12px;
   border-top: 1px solid var(--color-border-warm);
 }
 
-.summaryRow {
+.factRow {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   padding: 4px 0;
   font-size: 14px;
   line-height: 20px;
-  color: var(--color-text-body);
 }
 
-.summaryRow dt,
-.summaryRow dd {
+.factRow dt {
   margin: 0;
+  color: var(--color-text-secondary);
 }
 
-.summaryTotal {
-  font-size: 16px;
-  font-weight: 600;
+.factRow dd {
+  margin: 0;
+  font-weight: 500;
+  text-align: right;
   color: var(--color-text);
 }
 
@@ -290,7 +349,7 @@
 
 .notice,
 .loadError {
-  margin-top: 16px;
+  margin: 0 0 16px;
   padding: 14px 16px;
   border-radius: var(--radius-option);
 }
@@ -340,31 +399,46 @@
 }
 
 .refreshing {
-  margin: 16px 0 0;
+  margin: 0 0 16px;
   font-size: 14px;
   color: var(--color-text-secondary);
 }
 
-/* Loading skeleton: static shapes, no animation */
+/* Loading skeleton: static shapes that follow the two panels, no animation */
 
 .skeleton {
-  background: var(--color-tint);
-  border-radius: var(--radius-option);
+  background: var(--color-border-warm);
+  border-radius: var(--radius-field);
 }
 
-.skeletonBlock {
-  height: 92px;
-  margin-top: 20px;
+.panelNext .skeleton {
+  background: var(--color-border-control);
+}
+
+.skeletonLine {
+  height: 18px;
+  margin-top: 14px;
+}
+
+.skeletonLine:first-child {
+  margin-top: 0;
+}
+
+.skeletonHero {
+  height: 38px;
+  margin-top: 14px;
 }
 
 .skeletonRow {
   height: 56px;
-  margin-top: 12px;
+  margin-top: 14px;
+  border-radius: 12px;
 }
 
 .skeletonButton {
   height: 48px;
   margin-top: 20px;
+  border-radius: var(--radius-control);
 }
 
 /* Confirmation dialog (native <dialog>: focus trap, inert page and Esc come with showModal) */
@@ -436,7 +510,18 @@
     padding-top: 32px;
   }
 
-  .card {
-    padding: 28px 24px;
+  .panel {
+    padding: 24px 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .page {
+    max-width: 880px;
+  }
+
+  .panels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
   }
 }
