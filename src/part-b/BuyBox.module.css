@@ -1,0 +1,405 @@
+/* Mobile first: one column by default, the two-column layout from the reference starts at 768px.
+   Values from the reference are CSS px (2x screenshot / 2). Mobile values are not in the design. */
+
+.page {
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+
+/* Photo card */
+
+.photoCard {
+  box-sizing: border-box;
+  aspect-ratio: 1;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-warm);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Details column */
+
+.details {
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0 0 11px;
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  font-size: 14px;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.ratingValue {
+  margin-left: 8px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.reviewsLink {
+  margin-left: 9px;
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.title {
+  margin: 10px 0 11px;
+  font-family: var(--font-serif);
+  font-size: 44px;
+  line-height: 50px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-brand);
+}
+
+.subtitle {
+  max-width: 440px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 25px;
+  color: var(--color-text-body);
+}
+
+.divider {
+  margin: 28px 0 24px;
+  height: 0;
+  border: 0;
+  border-top: 1px solid var(--color-border-warm);
+}
+
+/* Purchase options */
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option {
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-option);
+  border-radius: var(--radius-option);
+  cursor: pointer;
+}
+
+.option:has(.radioInput:focus-visible) {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.optionSelected {
+  background: var(--color-tint);
+  border-color: var(--color-brand);
+  box-shadow: inset 0 0 0 1px var(--color-brand);
+}
+
+.optionHeader {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  cursor: pointer;
+}
+
+.optionHeaderWithDetails {
+  flex-wrap: wrap;
+  row-gap: 4px;
+  min-height: 40px;
+  margin-top: 17px;
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.optionHeader svg {
+  flex: none;
+}
+
+.optionLabel {
+  margin-left: 12px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Mobile: the badge wraps to its own line under the label. Desktop puts it inline (see media query). */
+.badge {
+  order: 3;
+  margin-left: 32px;
+  padding: 0 10px;
+  font-size: 11px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-badge-text);
+  background: var(--color-badge-bg);
+  border-radius: 999px;
+}
+
+.prices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto;
+}
+
+.price {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.comparePrice {
+  font-size: 13px;
+  line-height: 16px;
+  text-decoration: line-through;
+  color: var(--color-text-subtle);
+}
+
+.frequencyRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 0 32px;
+}
+
+.frequencyLabel {
+  font-size: 14px;
+  color: var(--color-text-body);
+}
+
+.selectWrap {
+  position: relative;
+  display: inline-block;
+  width: 115px;
+  height: 33px;
+}
+
+.select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 0 28px 0 12px;
+  appearance: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-field);
+  cursor: pointer;
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.selectChevron {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 1px;
+  pointer-events: none;
+}
+
+.perks {
+  margin: 10px 0 0 31.5px;
+  padding: 0 0 14px;
+  list-style: none;
+}
+
+.perk {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 25px;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.perk svg {
+  flex: none;
+}
+
+/* Quantity + add to cart */
+
+.purchaseRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.stepper {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 45px 36px 45px;
+  align-items: center;
+  flex: none;
+  height: 56px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-control);
+}
+
+.stepperButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+}
+
+/* In the reference the - and + sit about 1.5px below the vertical centre of the stepper. */
+.stepperButton svg {
+  transform: translateY(1.5px);
+}
+
+/* The reference shows "-" at full strength with quantity 1, so a disabled button is not dimmed. */
+.stepperButton:disabled {
+  cursor: not-allowed;
+}
+
+.stepperButton:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: -2px;
+}
+
+.stepperValue {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.addToCart {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 0 16px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-on-brand);
+  background: var(--color-brand);
+  border: 0;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+}
+
+.addToCart:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.dot {
+  margin: 0 10px;
+  color: var(--color-on-brand-muted);
+}
+
+/* Trust badges + fine print */
+
+.trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-body);
+}
+
+.trustItem svg {
+  flex: none;
+}
+
+.finePrint {
+  margin: 14px 0 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-text-muted);
+}
+
+/* Desktop: the layout from the reference (1200px window) */
+
+@media (min-width: 768px) {
+  .page {
+    padding: 56px 64px;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 540fr) minmax(0, 468fr);
+    gap: 64px;
+    align-items: start;
+  }
+
+  .optionHeaderWithDetails {
+    flex-wrap: nowrap;
+    row-gap: 0;
+  }
+
+  .badge {
+    order: 0;
+    margin-left: 12px;
+  }
+}

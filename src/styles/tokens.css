@@ -1,0 +1,38 @@
+/* Brand tokens, sampled from public/reference/buy-box.png. Shared by Part A and Part B. */
+:root {
+  --color-page: #fbf8f3;
+  --color-surface: #ffffff;
+  --color-tint: #f3f6f2;
+  --color-brand: #17402f;
+
+  --color-text: #1c2420;
+  --color-text-body: #4a5550;
+  --color-text-muted: #6b7a70;
+  --color-text-subtle: #8a948e;
+  --color-on-brand: #ffffff;
+  --color-on-brand-muted: #a2b3ac;
+
+  --color-border-warm: #e7e1d6;
+  --color-border-option: #e1dbcf;
+  --color-border-control: #cfd6d0;
+  --color-radio-off: #9aa59e;
+
+  --color-star: #d8a23a;
+  --color-badge-bg: #f6e7c4;
+  --color-badge-text: #7a5a12;
+
+  --radius-card: 24px;
+  --radius-option: 14px;
+  --radius-control: 12px;
+  --radius-field: 8px;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+}
+
+body {
+  margin: 0;
+  background: var(--color-page);
+  font-family: var(--font-sans);
+  color: var(--color-text);
+}
