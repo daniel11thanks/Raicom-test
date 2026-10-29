@@ -265,9 +265,37 @@
 }
 
 .facts {
-  margin: 12px 0 0;
+  margin: 12px 0 20px;
   padding-top: 12px;
   border-top: 1px solid var(--color-border-warm);
+}
+
+/* Pinned to the bottom of the panel so it lines up with the end of the next shipment panel on desktop. */
+.panelFooter {
+  margin-top: auto;
+  padding-top: 4px;
+  border-top: 1px solid var(--color-border-warm);
+}
+
+/* Low emphasis on purpose: destructive and rare, and far from the skip. The tap area is still 48px tall. */
+.cancelButton {
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-danger);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.cancelButton:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
 }
 
 .factRow {
