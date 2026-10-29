@@ -1,0 +1,442 @@
+/* Mobile first (375px): one column, 16px side gutter, touch targets of at least 48px.
+   Wider screens only center the card and put the dialog buttons on one line. */
+
+.page {
+  box-sizing: border-box;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+}
+
+.card {
+  padding: 20px 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-warm);
+  border-radius: var(--radius-card);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Header + status pill */
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 500;
+  color: var(--color-brand);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+.pillActive {
+  color: var(--color-brand);
+  background: var(--color-tint);
+  border: 1px solid var(--color-brand);
+}
+
+.pillPaused {
+  color: var(--color-badge-text);
+  background: var(--color-badge-bg);
+}
+
+.pillCancelled {
+  color: var(--color-text-body);
+  background: var(--color-border-control);
+}
+
+/* Status block: what comes next (or why nothing does) */
+
+.block {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: var(--radius-option);
+}
+
+.blockActive {
+  background: var(--color-tint);
+}
+
+.blockPaused {
+  background: var(--color-badge-bg);
+}
+
+.blockCancelled {
+  background: var(--color-page);
+  border: 1px solid var(--color-border-control);
+}
+
+.block p {
+  margin: 0;
+}
+
+.blockLabel {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.blockMain {
+  margin-top: 4px !important;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.blockSub {
+  margin-top: 2px !important;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-body);
+}
+
+/* Products */
+
+.sectionTitle {
+  margin: 24px 0 8px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--color-border-warm);
+}
+
+.item:first-child {
+  border-top: 0;
+}
+
+.thumb,
+.thumbPlaceholder {
+  flex: none;
+  box-sizing: border-box;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+}
+
+.thumb {
+  object-fit: contain;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-warm);
+}
+
+.thumbPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-brand);
+  background: var(--color-tint);
+  border: 1px solid var(--color-border-warm);
+}
+
+.itemText {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.itemQty {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--color-text-secondary);
+}
+
+.itemPrice {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Summary */
+
+.summary {
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border-warm);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-body);
+}
+
+.summaryRow dt,
+.summaryRow dd {
+  margin: 0;
+}
+
+.summaryTotal {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Buttons */
+
+.primaryButton,
+.secondaryButton,
+.skipButton,
+.noticeButton {
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0 20px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+}
+
+.primaryButton {
+  color: var(--color-on-brand);
+  background: var(--color-brand);
+  border: 1px solid var(--color-brand);
+}
+
+.secondaryButton,
+.skipButton {
+  color: var(--color-brand);
+  background: var(--color-surface);
+  border: 1px solid var(--color-brand);
+}
+
+.skipButton {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.skipButton:disabled {
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-control);
+  cursor: not-allowed;
+}
+
+.primaryButton[aria-disabled="true"],
+.secondaryButton[aria-disabled="true"] {
+  cursor: progress;
+  opacity: 0.75;
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible,
+.skipButton:focus-visible,
+.noticeButton:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Notices and errors */
+
+.notice,
+.loadError {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius-option);
+}
+
+.noticeSuccess {
+  color: var(--color-text);
+  background: var(--color-tint);
+  border: 1px solid var(--color-brand);
+}
+
+.noticeError,
+.loadError {
+  color: var(--color-text);
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+}
+
+.noticeTitle,
+.noticeText {
+  margin: 0;
+}
+
+.noticeTitle {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.noticeError .noticeTitle,
+.loadError .noticeTitle {
+  color: var(--color-danger);
+}
+
+.noticeText {
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-body);
+}
+
+.noticeButton,
+.loadError .primaryButton {
+  margin-top: 12px;
+  color: var(--color-on-brand);
+  background: var(--color-brand);
+  border: 1px solid var(--color-brand);
+}
+
+.refreshing {
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* Loading skeleton: static shapes, no animation */
+
+.skeleton {
+  background: var(--color-tint);
+  border-radius: var(--radius-option);
+}
+
+.skeletonBlock {
+  height: 92px;
+  margin-top: 20px;
+}
+
+.skeletonRow {
+  height: 56px;
+  margin-top: 12px;
+}
+
+.skeletonButton {
+  height: 48px;
+  margin-top: 20px;
+}
+
+/* Confirmation dialog (native <dialog>: focus trap, inert page and Esc come with showModal) */
+
+.dialog {
+  box-sizing: border-box;
+  width: calc(100% - 32px);
+  max-width: 420px;
+  padding: 0;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 0;
+  border-radius: var(--radius-card);
+}
+
+.dialog::backdrop {
+  background: rgb(23 64 47 / 0.45);
+}
+
+.dialogBody {
+  padding: 24px 20px 20px;
+}
+
+.dialogTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 500;
+  color: var(--color-brand);
+}
+
+.dialogText {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--color-text-body);
+}
+
+.dialogError {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-danger);
+  background: var(--color-danger-bg);
+  border-radius: var(--radius-field);
+}
+
+.dialogActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+@media (min-width: 480px) {
+  .dialogActions {
+    flex-direction: row-reverse;
+  }
+
+  .dialogActions > button {
+    flex: 1;
+  }
+}
+
+@media (min-width: 600px) {
+  .page {
+    padding-top: 32px;
+  }
+
+  .card {
+    padding: 28px 24px;
+  }
+}

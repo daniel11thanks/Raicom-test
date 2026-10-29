@@ -74,6 +74,5 @@ export function useSubscription() {
     openSkip: useCallback(() => dispatch({ type: "SKIP_OPEN" }), []),
     cancelSkip: useCallback(() => dispatch({ type: "SKIP_CANCEL" }), []),
     confirmSkip,
-    dismissNotice: useCallback(() => dispatch({ type: "DISMISS_NOTICE" }), []),
   };
 }

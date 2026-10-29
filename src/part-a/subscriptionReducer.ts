@@ -34,8 +34,7 @@ export type Action =
   | { type: "SKIP_OK"; data: Subscription }
   | { type: "SKIP_FAIL" }
   | { type: "SKIP_REJECTED"; notice: "conflict" | "notActive" }
-  | { type: "SKIP_NOT_FOUND" }
-  | { type: "DISMISS_NOTICE" };
+  | { type: "SKIP_NOT_FOUND" };
 
 export const initialState: State = {
   load: "loading",
@@ -105,8 +104,5 @@ export function reducer(state: State, action: Action): State {
     case "SKIP_NOT_FOUND":
       if (state.skip !== "submitting") return state;
       return { ...state, skip: "idle", notice: { kind: "notFound" } };
-
-    case "DISMISS_NOTICE":
-      return { ...state, notice: null };
   }
 }
