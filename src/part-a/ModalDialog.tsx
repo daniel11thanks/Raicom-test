@@ -5,7 +5,7 @@ interface ModalDialogProps {
   open: boolean;
   /** While locked, Esc and a click on the backdrop do nothing (a request is in flight). */
   locked?: boolean;
-  /** Called when the dialog was closed by the user (Esc, backdrop). Also fires after a programmatic close, so keep it idempotent. */
+  /** Called when the user asks to close (Esc, backdrop) or the browser closed the dialog on its own. */
   onClose: () => void;
   titleId: string;
   descriptionId?: string;
@@ -15,7 +15,8 @@ interface ModalDialogProps {
 }
 
 // Native <dialog>: showModal() gives the focus trap, the inert page behind it and Esc. This wrapper adds the
-// lock used while the skip request runs, and focus on the safe choice.
+// lock used while the skip request runs, and focus on the safe choice. React state is the single source of truth:
+// `open` decides whether the dialog is shown, and the effect below makes the DOM follow it.
 export function ModalDialog({ open, locked = false, onClose, titleId, descriptionId, initialFocusRef, children }: ModalDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -30,16 +31,21 @@ export function ModalDialog({ open, locked = false, onClose, titleId, descriptio
     }
   }, [open, initialFocusRef]);
 
-  // Esc: stay open while locked (closing would not cancel the request and the result would be lost).
+  // Esc. The browser never closes the dialog on its own here: we cancel its default and let the state do it.
+  // While locked nothing happens (closing would not cancel the request and the result would be lost).
   const handleCancel = (event: SyntheticEvent<HTMLDialogElement>) => {
-    if (locked) event.preventDefault();
+    event.preventDefault();
+    if (!locked) onClose();
   };
 
-  // Some browsers close on a second Esc even after preventDefault. Reopen if we are still locked;
-  // otherwise this is a real close and the state follows it.
+  // The "close" event arrives later, as its own task, and can arrive late or in pairs. It only matters when the
+  // browser closed the dialog by itself (for example Chrome closing on a second Esc after a prevented one): then
+  // `open` is still true but the dialog is shut. Every late event of a close we made ourselves, or of a dialog
+  // that was reopened meanwhile, fails that test and is ignored, so it cannot undo what the user did since.
   const handleClose = () => {
     const dialog = dialogRef.current;
-    if (locked && dialog && !dialog.open) {
+    if (!dialog || dialog.open || !open) return;
+    if (locked) {
       dialog.showModal();
       return;
     }
